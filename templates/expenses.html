@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 data-i18n="title_manage_expenses">Manage Expenses</h2>
+    <div>
+        <button class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#categoryModal">
+            <i class="bi bi-tags"></i> <span data-i18n="btn_manage_categories">Categories</span>
+        </button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#expenseModal">
+            <i class="bi bi-plus-lg"></i> <span data-i18n="btn_add_expense">Add Expense</span>
+        </button>
+    </div>
+</div>
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search description...">
+            </div>
+            <div class="col-md-4">
+                <select id="filterCategory" class="form-select">
+                    <option value="" data-i18n="all_categories">All Categories</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card shadow-sm text-bg-theme">
+    <div class="card-body p-0 table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th data-i18n="th_date">Date</th>
+                    <th data-i18n="th_category">Category</th>
+                    <th data-i18n="th_desc">Description</th>
+                    <th data-i18n="th_amount">Amount</th>
+                    <th data-i18n="th_actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="allExpensesTable"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Expense Modal -->
+<div class="modal fade" id="expenseModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle" data-i18n="btn_add_expense">Add Expense</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="expenseForm">
+                    <input type="hidden" id="expenseId">
+                    <div class="mb-3">
+                        <label data-i18n="th_amount">Amount *</label>
+                        <input type="number" step="0.01" class="form-control" id="expAmount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label data-i18n="th_category">Category *</label>
+                        <select class="form-select" id="expCategory" required></select>
+                    </div>
+                    <div class="mb-3">
+                        <label data-i18n="th_date">Date *</label>
+                        <input type="date" class="form-control" id="expDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label data-i18n="th_desc">Description</label>
+                        <input type="text" class="form-control" id="expDesc">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100" data-i18n="btn_save">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Category Modal -->
+<div class="modal fade" id="categoryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" data-i18n="btn_manage_categories">Manage Categories</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="categoryForm" class="d-flex mb-3">
+                    <input type="text" class="form-control me-2" id="newCategoryName" placeholder="New Category" required>
+                    <button type="submit" class="btn btn-success"><i class="bi bi-plus"></i></button>
+                </form>
+                <ul class="list-group" id="categoryListBody"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='expenses.js') }}"></script>{% endblock %}

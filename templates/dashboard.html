@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 data-i18n="nav_dashboard">Dashboard</h2>
+    <a href="/expenses" class="btn btn-success"><i class="bi bi-plus-lg"></i> <span data-i18n="btn_add_expense">Add Expense</span></a>
+</div>
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-primary shadow-sm h-100 summary-card">
+            <div class="card-body position-relative">
+                <h5 class="card-title"><i class="bi bi-currency-rupee"></i> <span data-i18n="this_month">This Month</span></h5>
+                <h2 id="thisMonthTotal" class="mb-0">₹0.00</h2>
+                <small class="opacity-75"><span data-i18n="budget">Budget</span>: <span id="currentBudgetDisplay">Loading...</span></small>
+                <button class="btn btn-sm btn-light position-absolute top-0 end-0 m-2 opacity-75" onclick="editBudget()" title="Edit Monthly Budget">
+                    <i class="bi bi-pencil"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-info shadow-sm h-100 summary-card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-cash-stack"></i> <span data-i18n="total_expenses">Total Expenses</span></h5>
+                <h2 id="allTimeTotal">₹0.00</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-warning shadow-sm h-100 summary-card" id="budgetCard">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-bullseye"></i> <span data-i18n="ai_prediction">AI Budget Prediction</span></h5>
+                <h3 id="predictedBudget">Loading...</h3>
+                <small id="aiTip"></small>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-4">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm chart-card h-100">
+            <div class="card-body">
+                <h5 class="card-title" data-i18n="cat_breakdown">Category Breakdown</h5>
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm chart-card h-100">
+            <div class="card-body">
+                <h5 class="card-title" data-i18n="monthly_trend">Monthly Spending Trend</h5>
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card shadow-sm text-bg-theme">
+    <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+        <h5 class="mb-0" data-i18n="recent_transactions">Recent Transactions</h5>
+        <button id="exportBtn" class="btn btn-sm btn-outline-secondary"><i class="bi bi-download"></i> Export CSV</button>
+    </div>
+    <div class="card-body p-0 table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th data-i18n="th_date">Date</th>
+                    <th data-i18n="th_category">Category</th>
+                    <th data-i18n="th_desc">Description</th>
+                    <th data-i18n="th_amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody id="recentExpensesTable"></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='dashboard.js') }}"></script>{% endblock %}
